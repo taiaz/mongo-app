@@ -13,6 +13,8 @@ spec:
       labels:
         app: mongodb
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker1  # Chạy trên node worker1
       containers:
       - name: mongodb
         image: tonytran1997/mongo-app:staging-latest
