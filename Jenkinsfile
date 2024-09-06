@@ -59,8 +59,6 @@ pipeline {
                             kubectl config use-context jenkins-context
                         """
 
-                        sh "kubectl apply -f mongo-pvc.yaml --namespace=${NAMESPACE}"
-
                         // Triển khai file deployment.yaml lên Kubernetes
                         sh "kubectl apply -f deployment.yaml --namespace=${NAMESPACE}"
 
