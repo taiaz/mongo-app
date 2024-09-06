@@ -1,0 +1,12 @@
+.git
+.gitignore
+
+Jenkinsfile
+
+*.log
+
+Dockerfile
+docker-compose.yml
+
+node_modules
+tmp
