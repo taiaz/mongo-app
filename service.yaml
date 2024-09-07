@@ -4,7 +4,7 @@ metadata:
   name: mongodb-service
   namespace: staging
 spec:
-  type: ClusterIP
+  type: LoadBalancer #ClusterIP
   ports:
     - port: 27017
       targetPort: 27017
