@@ -65,8 +65,10 @@ pipeline {
                         // Triển khai file service.yaml lên Kubernetes
                         sh "kubectl apply -f service.yaml --namespace=${NAMESPACE}"
 
+                        sh "kubectl delete pod -l app=mongodb -n staging"
+
                         // Cập nhật image trong deployment bằng image mới nhất
-                        sh "kubectl set image deployment/mongodb mongodb=${LATEST_IMAGE} --namespace=${NAMESPACE}"
+                        sh "kubectl set image deployment/mongodb mongodb=${LATEST_IMAGE} --namespace=${NAMESPACE} --record"
                     }
                 }
             }
