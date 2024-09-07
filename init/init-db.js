@@ -2,22 +2,26 @@
 var adminUser = process.env.MONGO_INITDB_ROOT_USERNAME;
 var adminPass = process.env.MONGO_INITDB_ROOT_PASSWORD;
 
-// Chuyển sang database 'admin'
-db = db.getSiblingDB('admin');
+// Chuyển sang database 'user_management'
+db = db.getSiblingDB('user_management');
 
-// Tạo user admin
+// Tạo user admin với quyền root
 db.createUser({
   user: adminUser,
   pwd: adminPass,
   roles: [ { role: "root", db: "admin" } ]
 });
 
-// Chuyển sang database 'mydatabase'
-db = db.getSiblingDB('mydatabase');
+// Chuyển sang database 'user_management'
+db = db.getSiblingDB('user_management');
 
-// Tạo collection và thêm dữ liệu mặc định vào 'mycollection'
-db.mycollection.insertMany([
+// Tạo collection 'users' và thêm dữ liệu mặc định
+db.createCollection("users");
+db.users.insertMany([
   { name: "John Doe", email: "john@example.com" },
   { name: "Jane Smith", email: "jane@example.com" },
   { name: "Tony Smith", email: "tony@example.com" }
 ]);
+
+// Cấp quyền readWrite cho user 'admin' trên 'user_management'
+db.getSiblingDB('admin').grantRolesToUser(adminUser, [{ role: "readWrite", db: "user_management" }]);
