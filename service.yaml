@@ -4,16 +4,21 @@ metadata:
   name: mongodb-service
   namespace: staging
 spec:
-  # type: LoadBalancer #ClusterIP
-  # ports:
-  #   - port: 27017
-  #     targetPort: 27017
-  #     protocol: TCP
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 27017
       targetPort: 27017
       protocol: TCP
-      nodePort: 32000
+  # type: LoadBalancer
+  # ports:
+  #   - port: 27017
+  #     targetPort: 27017
+  #     protocol: TCP
+  # type: NodePort
+  # ports:
+  #   - port: 27017
+  #     targetPort: 27017
+  #     protocol: TCP
+  #     nodePort: 32000
   selector:
     app: mongodb
