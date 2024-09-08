@@ -57,11 +57,9 @@ pipeline {
 
                         sh "kubectl apply -f deployment.yaml --namespace=${NAMESPACE} --namespace=${NAMESPACE}"
 
-                        sh "kubectl set image deployment/mongodb mongodb=${env.DOCKER_IMAGE} --namespace=${NAMESPACE}"
-
                         sh "kubectl apply -f service.yaml --namespace=${NAMESPACE}"
 
-                        sh "kubectl set image deployment/mongodb mongodb=${LATEST_IMAGE} --namespace=${NAMESPACE} --record"
+                        sh "kubectl set image deployment/mongodb mongodb=${DOCKER_IMAGE} --namespace=${NAMESPACE} --record"
 
                         sh "kubectl rollout status deployment/mongodb --namespace=${NAMESPACE}"
                     }
