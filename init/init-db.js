@@ -18,4 +18,3 @@ db.users.insertMany([
   { name: "Tony Smith", email: "tony@example.com" }
 ]);
 
-db.getSiblingDB('admin').grantRolesToUser(adminUser, [{ role: "readWrite", db: "user_management" }]);
