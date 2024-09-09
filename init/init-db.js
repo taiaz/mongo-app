@@ -1,5 +1,8 @@
-var adminUser = process.env.MONGO_INITDB_ROOT_USERNAME;
-var adminPass = process.env.MONGO_INITDB_ROOT_PASSWORD;
+// var adminUser = process.env.MONGO_INITDB_ROOT_USERNAME;
+// var adminPass = process.env.MONGO_INITDB_ROOT_PASSWORD;
+
+var adminUser = MONGO_INITDB_ROOT_USERNAME;
+var adminPass = MONGO_INITDB_ROOT_PASSWORD;
 
 db = db.getSiblingDB('admin');
 
