@@ -9,4 +9,4 @@ RUN chmod +x /init.sh
 
 # Sử dụng shell script để inject biến môi trường và khởi động MongoDB
 ENTRYPOINT ["/init.sh"]
-CMD ["mongod", "--auth"]
+CMD ["mongod", "--auth", "--bind_ip_all"]
