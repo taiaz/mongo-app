@@ -15,6 +15,14 @@ spec:
     spec:
       nodeSelector:
         kubernetes.io/hostname: worker1
+      # Thêm initContainers để đảm bảo quyền cho volume
+      initContainers:
+      - name: volume-permissions
+        image: busybox
+        command: ["sh", "-c", "chmod -R 777 /data/db"]
+        volumeMounts:
+        - name: mongo-persistent-storage
+          mountPath: /data/db
       containers:
       - name: mongodb
         image: tonytran1997/mongo-app:staging-latest
