@@ -1,4 +1,4 @@
-FROM mongo:6.0
+FROM mongo:4.4
 
 RUN mkdir -p /docker-entrypoint-initdb.d
 
