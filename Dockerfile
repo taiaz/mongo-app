@@ -1,12 +1,11 @@
-FROM mongo:4.4
+# Sử dụng phiên bản MongoDB phù hợp
+FROM mongo:8.0.0-rc19-noble
 
-# Sao chép các file cần thiết
-COPY init/init-db.js /docker-entrypoint-initdb.d/
-COPY init/init.sh /init.sh
+# Copy file init-db.js vào thư mục init của MongoDB để tự động chạy khi container khởi động
+COPY ./init/init-db.js /docker-entrypoint-initdb.d/
 
-# Đảm bảo quyền thực thi cho shell script
-RUN chmod +x /init.sh
+# Expose cổng 27017 để MongoDB có thể truy cập từ bên ngoài
+EXPOSE 27017
 
-# Sử dụng shell script để inject biến môi trường và khởi động MongoDB
-ENTRYPOINT ["/init.sh"]
-CMD ["mongod", "--auth", "--bind_ip_all"]
+# Khởi chạy MongoDB với entrypoint mặc định
+CMD ["mongod"]

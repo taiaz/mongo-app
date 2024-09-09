@@ -1,33 +1,23 @@
-var adminUser = "ADMIN_USER_PLACEHOLDER";
-var adminPass = "ADMIN_PASS_PLACEHOLDER";
+// Lấy thông tin tài khoản admin từ biến môi trường
+var adminUser = process.env.MONGO_INITDB_ROOT_USERNAME;
+var adminPass = process.env.MONGO_INITDB_ROOT_PASSWORD;
 
-// Kết nối tới database admin
-db = db.getSiblingDB('admin');
-
-// Tạo người dùng admin trong database admin nếu chưa tồn tại
-if (db.getUser(adminUser) === null) {
-  db.createUser({
-    user: adminUser,
-    pwd: adminPass,
-    roles: [
-      { role: "root", db: "admin" },  // Quyền root trên admin
-    ]
-  });
-}
-
-// Kết nối tới database user_management
+// Kết nối tới cơ sở dữ liệu 'user_management'
 db = db.getSiblingDB('user_management');
 
-// Tạo collection users nếu chưa có
-if (!db.getCollectionNames().includes('users')) {
-  db.createCollection("users");
-  db.users.insertMany([
-    { name: "John Doe", email: "john@example.com" },
-    { name: "Jane Smith", email: "jane@example.com" },
-    { name: "Tony Smith", email: "tony@example.com" }
-  ]);
-}
+// Tạo user admin với quyền root
+db.createUser({
+  user: adminUser,
+  pwd: adminPass,
+  roles: [{ role: "root", db: "admin" }]
+});
 
-// Quay lại database admin và cấp quyền readWrite cho adminUser trên user_management
-db = db.getSiblingDB('admin');
-db.grantRolesToUser(adminUser, [{ role: "readWrite", db: "user_management" }]);
+// Thêm dữ liệu mẫu vào collection 'users', MongoDB sẽ tự động tạo collection này nếu chưa tồn tại
+db.users.insertMany([
+  { name: "John Doe", email: "john@example.com" },
+  { name: "Jane Smith", email: "jane@example.com" },
+  { name: "Tony Smith", email: "tony@example.com" }
+]);
+
+// Cấp quyền readWrite cho user admin trên cơ sở dữ liệu 'user_management'
+db.getSiblingDB('admin').grantRolesToUser(adminUser, [{ role: "readWrite", db: "user_management" }]);
