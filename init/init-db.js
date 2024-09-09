@@ -4,15 +4,13 @@ var adminPass = "ADMIN_PASS_PLACEHOLDER";
 // Kết nối tới database admin
 db = db.getSiblingDB('admin');
 
-// Kiểm tra xem người dùng có tồn tại không
+// Tạo người dùng admin trong database admin nếu chưa tồn tại
 if (db.getUser(adminUser) === null) {
-  // Tạo người dùng admin với quyền truy cập trên cả admin và user_management
   db.createUser({
     user: adminUser,
     pwd: adminPass,
     roles: [
       { role: "root", db: "admin" },  // Quyền root trên admin
-      { role: "dbOwner", db: "user_management" }  // Quyền dbOwner trên user_management
     ]
   });
 }
@@ -20,15 +18,16 @@ if (db.getUser(adminUser) === null) {
 // Kết nối tới database user_management
 db = db.getSiblingDB('user_management');
 
-// Kiểm tra xem collection users có tồn tại chưa
+// Tạo collection users nếu chưa có
 if (!db.getCollectionNames().includes('users')) {
-  // Tạo collection nếu chưa tồn tại
   db.createCollection("users");
-
-  // Thêm dữ liệu vào collection users
   db.users.insertMany([
     { name: "John Doe", email: "john@example.com" },
     { name: "Jane Smith", email: "jane@example.com" },
     { name: "Tony Smith", email: "tony@example.com" }
   ]);
 }
+
+// Quay lại database admin và cấp quyền readWrite cho adminUser trên user_management
+db = db.getSiblingDB('admin');
+db.grantRolesToUser(adminUser, [{ role: "readWrite", db: "user_management" }]);
