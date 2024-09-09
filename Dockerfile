@@ -1,4 +1,4 @@
-FROM mongo:8.0.0-rc19-noble
+FROM mongo:6.0
 
 RUN mkdir -p /docker-entrypoint-initdb.d
 
