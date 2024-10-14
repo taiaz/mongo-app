@@ -18,6 +18,6 @@ db.users.insertMany([
   { name: "Jane Smith", email: "jane@example.com" },
   { name: "Tony Smith", email: "tony@example.com" }
 ]);
-
+// test
 // Cấp quyền readWrite cho user admin trên cơ sở dữ liệu 'user_management'
 db.getSiblingDB('admin').grantRolesToUser(adminUser, [{ role: "readWrite", db: "user_management" }]);
